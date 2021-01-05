@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rbac.mapper.RightsMapper">
+    <resultMap id="rightsResultMap" type="com.rbac.bean.Rights">
+        <id column="right_id" property="right_id"></id>
+        <result column="right_name" property="right_name"></result>
+        <result column="right_desc" property="right_desc"></result>
+        <result column="rid" property="rid"></result>
+        <result column="bid" property="bid"></result>
+    </resultMap>
+
+    <select id="selectOneByRightsId" parameterType="Integer" resultMap="rightsResultMap">
+        select * from rights where right_id=#{right_id}
+    </select>
+
+    <select id="selectByRoleIdAndBuildingId" resultMap="rightsResultMap">
+        select * from rights where rid=#{arg0} and bid=#{arg1}
+    </select>
+
+    <insert id="insertOne" parameterType="com.rbac.bean.Rights" useGeneratedKeys="true" keyProperty="right_id">
+        insert into rights (right_name,right_desc,rid,bid)
+        values (#{right_name},#{right_desc},#{rid},#{bid})
+    </insert>
+
+    <update id="updateOne" parameterType="com.rbac.bean.Rights" useGeneratedKeys="true" keyProperty="right_id">
+        update rights
+        set right_name=#{right_name},right_desc=#{right_desc},rid=#{rid},bid=#{bid}
+        where right_id=#{right_id}
+    </update>
+</mapper>

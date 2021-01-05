@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rbac.mapper.BuildingsMapper">
+    <resultMap id="buildingsResultMap" type="com.rbac.bean.Buildings">
+        <id column="building_id" property="building_id"></id>
+        <result column="building_name" property="building_name"></result>
+        <result column="building_desc" property="building_desc"></result>
+        <result column="open" property="open"></result>
+    </resultMap>
+
+    <select id="selectOneByBuildingsId" parameterType="Integer" resultMap="buildingsResultMap">
+        select * from buildings where building_id=#{building_id}
+    </select>
+
+    <select id="updateBuilding" parameterType="com.rbac.bean.Buildings" resultType="java.lang.Boolean">
+        update buildings
+        set building_name=#{building_name},
+        building_desc=#{building_desc},
+        Open=#{Open}
+        where building_id=#{building_id}
+    </select>
+
+    <insert id="insertOne" parameterType="com.rbac.bean.Buildings" useGeneratedKeys="true" keyProperty="building_id">
+        insert into buildings (building_name,building_desc,open)
+        values (#{building_name},#{building_desc},1)
+    </insert>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rbac.mapper.RolesMapper">
+    <sql id="table_name">roles</sql>
+    <sql id="select_fields">
+      role_id,role_name,role_desc,sub_rid
+    </sql>
+
+    <resultMap id="rolesResultMap" type="com.rbac.bean.Roles">
+        <id column="role_id" property="role_id"></id>
+        <result column="role_name" property="role_name"></result>
+        <result column="role_desc" property="role_desc"></result>
+        <result column="sub_rid" property="sub_rid"></result>
+    </resultMap>
+
+    <select id="selectOneById" parameterType="java.lang.Integer" resultType="com.rbac.bean.Roles">
+        SELECT
+        <include refid="select_fields"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE
+        role_id =#{rId}
+    </select>
+
+    <insert id="insertOne" parameterType="com.rbac.bean.Roles" useGeneratedKeys="true" keyProperty="right_id">
+        insert into roles (role_name,role_desc,sub_rid)
+        values (#{role_name},#{role_desc},#{sub_rid})
+    </insert>
+
+    <update id="updateOne" parameterType="com.rbac.bean.Roles" useGeneratedKeys="true" keyProperty="right_id">
+        update roles
+        set role_name=#{role_name},role_desc=#{role_desc},sub_rid=#{sub_rid}
+        where role_id=#{role_id}
+    </update>
+</mapper>

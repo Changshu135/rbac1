@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rbac.mapper.UsersMapper">
+    <resultMap id="usersResultMap" type="com.rbac.bean.Users">
+        <id column="user_id" property="user_id"></id>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="gender" property="gender"></result>
+        <result column="realName" property="realName"></result>
+        <association property="role" column="rid" javaType="com.rbac.bean.Roles" select="com.rbac.mapper.RolesMapper.selectOneById">
+        </association>
+    </resultMap>
+    <select id="getAllUsers" resultMap="usersResultMap">
+        select * from users
+    </select>
+
+    <select id="selectOneByUsername" parameterType="String" resultMap="usersResultMap">
+        select * from users where username=#{username}
+    </select>
+
+    <select id="selectOneByUserId" parameterType="Integer" resultMap="usersResultMap">
+        select * from users where user_id=#{users_id}
+    </select>
+    
+    <insert id="insertOne" parameterType="com.rbac.bean.Users" useGeneratedKeys="true" keyProperty="user_id">
+        insert into users (username,password,gender,realName,rid)
+        values (#{username},#{password},#{gender},#{realName},#{role.role_id})
+    </insert>
+
+    <update id="updateOne" parameterType="com.rbac.bean.Users" useGeneratedKeys="true" keyProperty="user_id">
+        update users
+        set username=#{username},password=#{password},gender=#{gender},realName=#{realName},rid=#{role.role_id}
+        where user_id=#{user_id}
+    </update>
+
+    <delete id="deleteOne" parameterType="java.lang.Integer">
+        delete from users where user_id=#{user_id}
+
+    </delete>
+</mapper>
